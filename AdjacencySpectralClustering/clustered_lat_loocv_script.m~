@@ -1,0 +1,48 @@
+clear, clc
+file = ['clustered_lat_loocv_',date,'.mat'];
+diaryFile = ['clustered_lat_loocv_',date,'.txt'];
+
+if strcmp(license,'162077')
+    load('/Volumes/HDD2TB/data/BLSA/preprocessed/BLSA50_As_targs.mat');
+    diary(['/Volumes/HDD2TB/data/BLSA/results/rdpg_results/',diaryFile]);
+else
+    load /users/dsussman/documents/MATLAB/Brain_graphs/BLSA50_As_targs.mat;
+    diary(['/users/dsussman/documents/MATLAB/Brain_graphs/',diaryFile]);
+end
+
+disp('*********************************************');
+disp('****** Cluster Latent Loocv Script **********');
+disp(datestr(clock));
+
+sz = size(As);
+
+for k=1:sz(3)
+    if any(As(:,:,k)~=As(:,:,k)')
+        % Not symetric but they should be so assume a sparse storage
+        As(:,:,k) = As(:,:,k)+As(:,:,k)';
+    end
+end
+%binarize
+As = double(As>.2);
+    
+clusterSizes = 2;
+latDims = 2;
+all_results = cell(max(clusterSizes),max(latDims));
+all_results{1,1} = struct('clusterSizes',clusterSizes,'latDims',latDims);
+for kCluster = 2:clusterSizes
+    parfor latD = 1:latDims
+        try
+            all_results{kCluster,latD} =  clustered_lat_feat_loocv(As,targs,latD,kCluster);
+        catch e % exceptions are possible ... plow through
+            disp(e.message);
+            all_results{kCluster,latD} = e;
+        end
+    end
+    
+    if strcmp(license,'162077')
+        save(['/Volumes/HDD2TB/data/BLSA/results/',file],'all_results');
+    else
+        save(['/users/dsussman/documents/MATLAB/Brain_graphs/',file],'all_results');
+    end
+end
+

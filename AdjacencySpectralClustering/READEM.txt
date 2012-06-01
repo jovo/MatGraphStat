@@ -1,0 +1,2 @@
+this code hasn't really been vetted or debugged, and won't be supported.
+check out PyGraphStat repository for an updated version of this stuff in python.
