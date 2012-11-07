@@ -1,0 +1,3 @@
+[submodule "FastApproximateQAP"]
+    path = FastApproximateQAP
+    url = git://github.com/jovo/FastApproximateQAP
