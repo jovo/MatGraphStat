@@ -5,3 +5,4 @@ Joshua T. Vogelstein, John M. Conroy, Louis J. Podrazik, Steven G. Kratzer, Donn
 for details.  it is on the arxiv here:
 http://arxiv.org/abs/1112.5507
 
+run bench_qap(20) for a demo
