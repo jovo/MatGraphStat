@@ -1,6 +1,7 @@
 clear, clc
 
 % select some parameters governing the sample data
+s=100;                  % # subjects
 n=10;                   % # vertices
 pi0=0.5;                % prior probability of being in class 0
 p0=rand(n);             % prob of edges in class 0
@@ -20,7 +21,6 @@ subplot(133), imagesc(abs(p0-p1))
 ys=nan(s,1);
 As=nan(n,n,s);
 
-% sample data
 s=100;                  % # samples
 for i=1:s
    ys(i)=rand>pi0;      % samples classes
