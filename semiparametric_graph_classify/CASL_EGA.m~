@@ -1,0 +1,45 @@
+%% try to get something working with CASL data
+
+clearvars, clc,
+fpath = mfilename('fullpath');
+findex=strfind(fpath,'/');
+
+%% load graphs
+
+listing = dir('../Data/CASLDelivery_0419/');
+
+As=nan(70,70,48);
+for i=3:length(listing)-1
+   temp=load([fpath(1:findex(end-1)), 'Data/CASLDelivery_0419/', listing(i).name]);
+   As(:,:,i-2)=temp.fibergraph+temp.fibergraph';
+end
+
+%% load labels
+
+labelData = importdata([fpath(1:findex(end-1)), 'Data/CASLDelivery_0419/', listing(end).name]);
+Ys = labelData.data;
+
+%% ASE
+d=5;
+lat = estimate_latent_features_eig( As, d);
+
+%% LOL
+
+
+task.types={'DENL'};
+task.ks=10;
+
+for i=1:length(Ys)
+    lat2=reshape(lat,[70*d, 48]);
+    
+    sample=lat2(:,i);
+    training=lat2;
+    training(:,i)=[];
+    
+    group=Ys;
+    group(i)=[];
+    
+    LOL_Out = LOL_classify(sample',training',group,task);
+    Yhat(i
+end
+

@@ -1,4 +1,4 @@
-function [SigSub wcounter] = signal_subgraph_estimator(SigMat,constraints,egg)
+function [SigSub, wcounter] = signal_subgraph_estimator(SigMat,constraints,egg)
 % estimates the signal subgraph from SigMat using the constraints
 %
 % INPUT:
@@ -81,9 +81,9 @@ elseif nargin==3 && egg==1              % use egg (similar to coherent, perhaps 
         
         w=wset(wcounter);
         inds = find(SigMat<=w);
-        [I J] = ind2sub(siz,inds);
+        [I, J] = ind2sub(siz,inds);
         ncounts = histc([I; J],1:V);
-        [B IX] = sort(ncounts,'descend');
+        [B, IX] = sort(ncounts,'descend');
         sumcounts = sum(B(1:num_stars));
         if sumcounts>=num_edges
             blank=0*SigMat+1;

@@ -47,7 +47,7 @@ if strcmp(cv,'loo')    % get signal subgraph using training data, then classify 
         
         if get_SigMat, SigMat = get_fisher(Atrn,Gtrn); end
         yi=ys(i);
-        for j=1:len_constraints
+        parfor j=1:len_constraints
             
             if mod(j,100)==0, disp(['current constraint: ' num2str(constraints{j})]), end
            
